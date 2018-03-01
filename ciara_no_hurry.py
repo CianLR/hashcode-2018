@@ -20,12 +20,17 @@ def calculate_finish(car, ride):
 
 def main():
 	total = 0
-	missed = 0
 	R, C, F, N, B, T, rides = get_input()
 	cars = [Car() for i in range(F)]
-	for car in cars: 
-		car.pos = (random.randint(0, R-1), random.randint(0, C-1))
-		car.available_time = car.pos[0] + car.pos[1]
+	a, b = 0, 0
+	for i in range(80):
+		if i % 2 == 0:
+			a += 70
+		else:
+			b += 50
+		cars[i].pos = (a, b)
+		cars[i].available_time = a + b
+	rides = sorted(rides, key=lambda r: r.start_time)
 
 	for ride in rides:
 		closest = 10**10
@@ -38,13 +43,10 @@ def main():
 				closest = distance
 		if car_found:
 			car_ride.queue.append(ride.ride_id)
-			car_ride.available_time = calculate_finish(car_ride, ride)
+			car_ride.available_time = calculate_finish(car, ride)
 			car_ride.pos = ride.end
-			total += ride.ride_time
-		else:
-			missed += 1
+			total += dist(ride.start, ride.end)
 	print(total)
-	print(missed)
 	for car in cars:
 		print(len(car.queue), *car.queue)
 

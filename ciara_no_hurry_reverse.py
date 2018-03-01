@@ -27,19 +27,20 @@ def main():
 		car.pos = (random.randint(0, R-1), random.randint(0, C-1))
 		car.available_time = car.pos[0] + car.pos[1]
 
-	for ride in rides:
+	for car in cars:
 		closest = 10**10
-		car_found = False
-		for car in cars:
+		ride_found = False
+		for ride in rides:
 			distance = dist(car.pos, ride.start)
 			if distance < closest and calculate_finish(car, ride) < ride.finish_time:
-				car_ride = car
-				car_found = True
+				ride_found = True
+				car_ride = ride
 				closest = distance
-		if car_found:
-			car_ride.queue.append(ride.ride_id)
-			car_ride.available_time = calculate_finish(car_ride, ride)
-			car_ride.pos = ride.end
+		if 	ride_found:
+			car.queue.append(ride.ride_id)
+			car.available_time = calculate_finish(car_ride, ride)
+			car.pos = ride.end
+			rides.remove(car_ride)
 			total += ride.ride_time
 		else:
 			missed += 1
