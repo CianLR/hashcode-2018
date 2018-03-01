@@ -22,15 +22,16 @@ def main():
 	cars = [Car() for i in range(F)]
 	rides = sorted(rides, key=lambda r: r.start_time)
 	for ride in rides:
-		earliest_finish = ride.finish_time + 1
+		earliest_finish = ride.finish_time
 		for car in cars:
 			finish = calculate_earliest_finish(car, ride)
 			if finish < earliest_finish:
 				earliest_finish = finish
 				car_ride = car
-		if earliest_finish < ride.finish_time + 1:
+		if earliest_finish < ride.finish_time:
 			car_ride.queue.append(ride.ride_id)
 			car_ride.available_time = earliest_finish
+			car_ride.pos = ride.end
 	for car in cars:
 		print(len(car.queue), *car.queue)
 
