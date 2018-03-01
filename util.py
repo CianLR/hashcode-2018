@@ -13,6 +13,10 @@ class Car:
     def print(self):
         print(len(self.rides), *[r.ride_id for r in self.rides])
 
+    def start_time_diff(self, r):
+        to_get = man_dist(self.current, r.cx_start)
+        return (self.ready + to_get) - r.start_time
+
     def add_ride(self, r):
         to_get = man_dist(self.current, r.cx_start)
         wait_time = max(0, r.start_time - (self.ready + to_get))
@@ -22,7 +26,7 @@ class Car:
 
     def can_make_ride(self, r):
         dst = man_dist(self.current, r.cx_start)
-        return self.ready + dst + r.ride_time <= r.finish_time
+        return self.ready + dst + r.ride_time < r.finish_time
 
 
 
