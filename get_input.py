@@ -8,6 +8,7 @@ class Ride:
         self.cx_end = complex(ex, ey)
         self.start_time = st
         self.finish_time = ft
+        self.ride_time = abs(sx - ex) + abs(sy - ey)
 
 def get_input():
     R, C, F, N, B, T = map(int, input().split())
